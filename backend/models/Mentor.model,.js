@@ -1,6 +1,7 @@
 const mongoose=require('mongoose');
 
-const studentSchema= new mongoose.Schema({
+
+const mentorSchema=new mongoose.Schema({
     firstName:{
         type:String,
         required:true
@@ -18,16 +19,11 @@ const studentSchema= new mongoose.Schema({
         type:String,
         required:true
     },
-    enrollment_number:{
+    designation:{
         type:String,
-        required:true,
-        unique:true
-    },
-    admissionYear:{
-        type:Number,
         required:true
     }
 })
 
-const studentModel=mongoose.model("personalData",studentSchema);
-module.exports=studentModel;
+const mentorModel=mongoose.model("mentorModel",mentorSchema);
+module.exports=mentorModel;
