@@ -1,5 +1,5 @@
 const mentorModel=require('../models/Mentor.model,')
-const { hashedPassword } = require("../utils/hashPassword.util");
+const { hashedPassword,comparePassword} = require("../utils/hashPassword.util");
 
 
 async function checkEmail(email) {
@@ -29,4 +29,15 @@ async function createMentor({
   return newMentor;
 }
 
-module.exports={checkEmail,createMentor}
+async function checkMentor({ email, password }) {
+  const res = await mentorModel.findOne({email});
+  if (!res) throw new Error("Register first");
+
+  const check = await comparePassword(password, res.password);
+  if (!check) throw new Error("wrong password");
+
+  return check;
+}
+
+
+module.exports={checkEmail,createMentor,checkMentor}
