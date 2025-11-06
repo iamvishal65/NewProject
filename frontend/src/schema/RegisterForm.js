@@ -39,18 +39,11 @@ export const registerSchema = z
       .transform((val) => val.toUpperCase()),
 
     admissionYear: z
-      .string()
-      .regex(/^\d{4}$/, "Admission year must be a 4-digit number")
-      .refine(
-        (val) => {
-          const year = parseInt(val);
-          const currentYear = new Date().getFullYear();
-          return year >= 2015 && year <= currentYear;
-        },
-        { message: "Admission year must be between 2000 and the current year" }
-      ),
+      .number()
+      .min(2015, "Admission year must be after 2015")
+      .max(new Date().getFullYear(), "Admission year cannot be in the future"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-    path: ["confirmPassword"], 
+    path: ["confirmPassword"],
   });

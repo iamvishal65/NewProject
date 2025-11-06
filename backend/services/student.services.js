@@ -16,9 +16,7 @@ async function createUser({
   enrollment_number,
   admissionYear,
 }) {
-  const catchDuplicate = await checkEmail({
-    $or: [{ email }, { enrollment_number }],
-  });
+  const catchDuplicate = await checkEmail(email,enrollment_number);
   if (catchDuplicate) {
     throw new Error("Student already registered");
   }

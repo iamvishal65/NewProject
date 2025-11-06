@@ -3,7 +3,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from '../../schema/RegisterForm';
 import { useForm } from "react-hook-form";
 
+
+
 export default function RegisterForm({ onSubmit }) {
+  
   const {
     register,
     handleSubmit,
@@ -12,7 +15,8 @@ export default function RegisterForm({ onSubmit }) {
     resolver: zodResolver(registerSchema),
     mode: "onChange", // real-time validation
   });
-
+  
+  
 
   return (
     <form className="flex  items-center justify-center  min-h-screen "  onSubmit={handleSubmit(onSubmit)}>
@@ -64,6 +68,7 @@ export default function RegisterForm({ onSubmit }) {
             type="password"
             placeholder="password"
             className="border rounded-md border-black p-2 w-[250px]"
+            {...register("confirmPassword")}
           />
           {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message}</p>}
         </label>
@@ -73,9 +78,9 @@ export default function RegisterForm({ onSubmit }) {
             type="text"
             placeholder="Enrollment number"
             className="border rounded-md border-black p-2 w-[250px]"
-            {...register("enrollmentNumber")}
+            {...register("enrollment_number")}
           />
-          {errors.enrollmentNumber && <p className="text-red-500">{errors.enrollmentNumber.message}</p>}
+          {errors.enrollment_number && <p className="text-red-500">{errors.enrollment_number.message}</p>}
         </label>
         <label className="flex flex-col">
           <span className="mb-1">Admission year:</span>
