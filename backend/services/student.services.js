@@ -43,7 +43,11 @@ async function checkUser({ identifier, password }) {
   const check = await comparePassword(password, res.password);
   if (!check) throw new Error("wrong password");
 
-  return check;
+  return res;
 }
 
-module.exports = { createUser, checkEmail, checkUser };
+async function checkLoggedIn(userId){
+  return await studentModel.findById(userId);
+}
+
+module.exports = { createUser, checkEmail, checkUser,checkLoggedIn };

@@ -1,11 +1,8 @@
 import axios from "axios";
-
+axios.defaults.withCredentials = true;
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000", // backend server URL
-  withCredentials: true,            // optional: if cookies are used
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "http://localhost:5000", 
+  withCredentials: true,           
 });
 
 export default axiosInstance;

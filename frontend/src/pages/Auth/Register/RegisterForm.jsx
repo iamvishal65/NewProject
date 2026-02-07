@@ -1,25 +1,23 @@
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from '../../schema/RegisterForm';
+import { registerSchema } from "./RegisterSchema";
 import { useForm } from "react-hook-form";
 
-
-
-export default function RegisterForm({ onSubmit }) {
-  
+export default function RegisterForm({ onSubmit,loading}) {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(registerSchema),
-    mode: "onChange", // real-time validation
+    mode: "onChange",
   });
-  
-  
 
   return (
-    <form className="flex  items-center justify-center  min-h-screen "  onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex  items-center justify-center  min-h-screen "
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <div className="flex flex-col items-center gap-2 box-border border border-black p-3 w-[400px] rounded-lg">
         <h2 className=" text-xl font-bold">Register</h2>
         <label className="flex flex-col">
@@ -30,7 +28,9 @@ export default function RegisterForm({ onSubmit }) {
             className=" border rounded-md border-black p-2 w-[250px] "
             {...register("firstName")}
           />
-          {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
+          {errors.firstName && (
+            <p className="text-red-500">{errors.firstName.message}</p>
+          )}
         </label>
         <label className="flex flex-col">
           <span className="mb-1">Last Name:</span>
@@ -40,7 +40,9 @@ export default function RegisterForm({ onSubmit }) {
             className="border rounded-md border-black p-2 w-[250px]"
             {...register("lastName")}
           />
-          {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
+          {errors.lastName && (
+            <p className="text-red-500">{errors.lastName.message}</p>
+          )}
         </label>
         <label className="flex flex-col">
           <span className="mb-1">Email:</span>
@@ -50,7 +52,9 @@ export default function RegisterForm({ onSubmit }) {
             className="border rounded-md border-black p-2 w-[250px]"
             {...register("email")}
           />
-          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
         </label>
         <label className="flex flex-col">
           <span className="mb-1">Password:</span>
@@ -60,7 +64,9 @@ export default function RegisterForm({ onSubmit }) {
             className="border rounded-md border-black p-2 w-[250px]"
             {...register("password")}
           />
-          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
         </label>
         <label className="flex flex-col">
           <span className="mb-1">Confirm Password:</span>
@@ -70,7 +76,9 @@ export default function RegisterForm({ onSubmit }) {
             className="border rounded-md border-black p-2 w-[250px]"
             {...register("confirmPassword")}
           />
-          {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message}</p>}
+          {errors.confirmPassword && (
+            <p className="text-red-500">{errors.confirmPassword.message}</p>
+          )}
         </label>
         <label className="flex flex-col">
           <span className="mb-1">Enrollment Number:</span>
@@ -80,7 +88,9 @@ export default function RegisterForm({ onSubmit }) {
             className="border rounded-md border-black p-2 w-[250px]"
             {...register("enrollment_number")}
           />
-          {errors.enrollment_number && <p className="text-red-500">{errors.enrollment_number.message}</p>}
+          {errors.enrollment_number && (
+            <p className="text-red-500">{errors.enrollment_number.message}</p>
+          )}
         </label>
         <label className="flex flex-col">
           <span className="mb-1">Admission year:</span>
@@ -90,20 +100,19 @@ export default function RegisterForm({ onSubmit }) {
             max="3000"
             placeholder="2015"
             className="border rounded-md border-black p-2 w-[250px]"
-            {...register("admissionYear",{ valueAsNumber: true })}
+            {...register("admissionYear", { valueAsNumber: true })}
           />
-
         </label>
         <button
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || loading}
           className={`${
-            isValid
-              ? "bg-green-600 hover:bg-green-700"
-              : "bg-gray-400 cursor-not-allowed"
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700"
           } text-white py-2 rounded`}
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
       </div>
     </form>

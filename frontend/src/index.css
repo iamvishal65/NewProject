@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.nav-link {
+  @apply hover:text-white transition-all duration-200 
+         border-b-2 border-transparent hover:border-white pb-1 cursor-pointer;
+}
+
+.mobile-link {
+  @apply hover:text-gray-300 transition-all;
+}

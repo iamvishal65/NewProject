@@ -1,9 +1,11 @@
-import Register from "./pages/Auth/Register"
+import { RecoilRoot } from "recoil"
+import LinkRoutes from "./routes/LinkRoutes"
+
 
 function App() {
   
   return (
-    <Register/>
+    <RecoilRoot><LinkRoutes/></RecoilRoot>
   )
 }
 export default App

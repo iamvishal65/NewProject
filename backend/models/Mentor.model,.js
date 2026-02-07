@@ -22,6 +22,11 @@ const mentorSchema=new mongoose.Schema({
     designation:{
         type:String,
         required:true
+    },
+    visibility:{
+        type:String,
+        enum:[private,public],
+        default:public
     }
 })
 
