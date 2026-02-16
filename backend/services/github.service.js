@@ -1,4 +1,4 @@
-const studentModel = require("../models/Student.authmodel");
+const studentModel = require("../models/Student.model");
 const crypto = require("node:crypto");
 
 const ALGORITHM = "aes-256-gcm";
@@ -7,7 +7,7 @@ if (KEY.length !== 32) {
   throw new Error("GITHUB_TOKEN_ENC_KEY must be 32 bytes");
 }
 
- function encryptToken(token) {
+function encryptToken(token) {
   const iv = crypto.randomBytes(12); // 96-bit IV (recommended for GCM)
   const cipher = crypto.createCipheriv(ALGORITHM, KEY, iv);
 
@@ -25,11 +25,11 @@ if (KEY.length !== 32) {
   };
 }
 
- function decryptToken(encryptedToken, iv, authTag) {
+function decryptToken(encryptedToken, iv, authTag) {
   const decipher = crypto.createDecipheriv(
     ALGORITHM,
     KEY,
-    Buffer.from(iv, "base64")
+    Buffer.from(iv, "base64"),
   );
 
   decipher.setAuthTag(Buffer.from(authTag, "base64"));
@@ -43,38 +43,47 @@ if (KEY.length !== 32) {
 }
 
 async function userAllowed(userId) {
-  const user = await studentModel.findOne({ _id: userId });
-  if (!user) throw new Error("invalid userId or token");
-  if (!user.github) return true;
-
-  if (user.github.connected === false) return true;
-  return false;
+  const user = await studentModel.findOne({userId} );
+  console.log(userId+"userallowed");
+  
+  if (!user) {
+    const err = new Error("user donnt register as a student");
+    err.statusCode = 403;
+    throw err;
+  }
+  
+  if (user.github.connected === false) return false;
+  return true;
 }
 
-async function saveAccessToken(id, encrypted) {
-  const user = await studentModel.findByIdAndUpdate(
-    id,
+async function saveAccessToken(userId, encrypted) {
+  
+  
+  const user = await studentModel.findOneAndUpdate(
+  {userId},
     {
       $set: {
         "github.connected": true,
         "github.accessTokenEnc": encrypted.encryptedToken,
         "github.iv": encrypted.iv,
         "github.authTag": encrypted.authTag,
-        "github.connectedAt": new Date()
-      }
+        "github.connectedAt": new Date(),
+      },
     },
-    { new: true }
+    { new: true },
   );
 
-  if (!user) throw new Error("Invalid userId");
+  if (!user) console.log("Invalid userId");
+ 
 }
 
-
-async function getAccessTokenByUserId(id){
-  const student = await studentModel.findById(id).select("github");
+async function getAccessTokenByUserId(userId) {
   
-  if (!student || !student.github.connected) {
-    return null;
+  const student = await studentModel.findOne({userId:userId}).select(github);
+console.log("hey"+studnet);
+
+  if (!student || student.github.connected==false) {
+    throw new Error("can't find student");
   }
 
   return {
@@ -82,7 +91,12 @@ async function getAccessTokenByUserId(id){
     iv: student.github.iv,
     authTag: student.github.authTag,
   };
-
 }
 
-module.exports = { userAllowed,encryptToken,decryptToken,saveAccessToken,getAccessTokenByUserId };
+module.exports = {
+  userAllowed,
+  encryptToken,
+  decryptToken,
+  saveAccessToken,
+  getAccessTokenByUserId,
+};

@@ -22,9 +22,13 @@ const projectCardSchema = new mongoose.Schema({
     type:String,
     required:false
   },
+  visibility:{
+    type:Boolean,
+    default:false
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "personalData",
+    ref: "studentData",
     required: true,
   },
 

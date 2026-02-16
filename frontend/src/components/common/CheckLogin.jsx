@@ -22,7 +22,6 @@ const CheckLogin = () => {
           setLoggedIn(false);
         }
       } catch (err) {
-        console.log("hellop");
         console.error("Login check failed:", err);
         setLoggedIn(false);
       } finally {
@@ -41,7 +40,7 @@ const CheckLogin = () => {
     return <Navigate to="/register" replace />;
   }
 
-  // 🔹 If logged in, render child routes
+  
   return <Outlet />;
 };
 

@@ -1,20 +1,16 @@
 const mongoose = require("mongoose");
 
 const studentSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "userData",
+    required: true,
+  },
   firstName: {
     type: String,
     required: true,
   },
   lastName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
     type: String,
     required: true,
   },
@@ -26,15 +22,16 @@ const studentSchema = new mongoose.Schema({
   admissionYear: {
     type: Number,
     required: true,
+    
   },
   github: {
-    connected: { type: Boolean , default: false },
+    connected: { type: Boolean, default: false },
     accessTokenEnc: String,
     iv: String,
     authTag: String,
-    connectedAt: Date
+    connectedAt: Date,
   },
 });
 
-const studentModel = mongoose.model("personalData", studentSchema);
+const studentModel = mongoose.model("studentData", studentSchema);
 module.exports = studentModel;

@@ -1,43 +1,30 @@
 const mentorModel=require('../models/Mentor.model,')
-const { hashedPassword,comparePassword} = require("../utils/hashPassword.util");
 
 
-async function checkEmail(email) {
-  return await mentorModel.findOne(email);
+
+async function checkMentor(userId) {
+  return await mentorModel.findOne(userId);
 }
 
 async function createMentor({
   firstName,
   lastName,
-  email,
-  password,
   designation
-}) {
-  const catchDuplicate = await checkEmail({email});
+},userId) {
+  const catchDuplicate = await checkMentor({userId});
   if (catchDuplicate) {
     throw new Error("mentor already registered");
   }
-  const hashPassword = await hashedPassword(password);
-
+  
   const newMentor = await mentorModel.create({
     firstName,
     lastName,
-    email,
-    password: hashPassword,
     designation
   });
   return newMentor;
 }
 
-async function checkMentor({ email, password }) {
-  const res = await mentorModel.findOne({email});
-  if (!res) throw new Error("Register first");
-
-  const check = await comparePassword(password, res.password);
-  if (!check) throw new Error("wrong password");
-
-  return check;
-}
 
 
-module.exports={checkEmail,createMentor,checkMentor}
+
+module.exports={createMentor,checkMentor}

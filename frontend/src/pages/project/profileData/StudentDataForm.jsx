@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerSchema } from "./RegisterSchema";
+import { StudentDataSchema } from "./StudentDataSchema";
 import { useForm } from "react-hook-form";
 
-export default function RegisterForm({ onSubmit, loading }) {
+export default function StudentDataForm({ onSubmit,loading}) {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(StudentDataSchema),
     mode: "onChange",
   });
-  
 
   return (
     <form
@@ -21,44 +20,50 @@ export default function RegisterForm({ onSubmit, loading }) {
     >
       <div className="flex flex-col items-center gap-2 box-border border border-black p-3 w-[400px] rounded-lg">
         <h2 className=" text-xl font-bold">Register</h2>
-
         <label className="flex flex-col">
-          <span className="mb-1">Email:</span>
+          <span className="mb-1">First Name:</span>
           <input
-            type="email"
-            placeholder="email"
-            className="border rounded-md border-black p-2 w-[250px]"
-            {...register("email")}
+            type="text"
+            placeholder="first name"
+            className=" border rounded-md border-black p-2 w-[250px] "
+            {...register("firstName")}
           />
-          {errors.email && (
-            <p className="text-red-500">{errors.email.message}</p>
+          {errors.firstName && (
+            <p className="text-red-500">{errors.firstName.message}</p>
           )}
         </label>
         <label className="flex flex-col">
-          <span className="mb-1">Password:</span>
+          <span className="mb-1">Last Name:</span>
           <input
-            type="password"
-            placeholder="password"
+            type="text"
+            placeholder="last name"
             className="border rounded-md border-black p-2 w-[250px]"
-            {...register("password")}
+            {...register("lastName")}
           />
-          {errors.password && (
-            <p className="text-red-500">{errors.password.message}</p>
+          </label>
+        <label className="flex flex-col">
+          <span className="mb-1">Enrollment Number:</span>
+          <input
+            type="text"
+            placeholder="Enrollment number"
+            className="border rounded-md border-black p-2 w-[250px]"
+            {...register("enrollment_number")}
+          />
+          {errors.enrollment_number && (
+            <p className="text-red-500">{errors.enrollment_number.message}</p>
           )}
         </label>
         <label className="flex flex-col">
-          <span className="mb-1">Confirm Password:</span>
+          <span className="mb-1">Admission year:</span>
           <input
-            type="password"
-            placeholder="password"
+            type="number"
+            min="2015"
+            max="3000"
+            placeholder="2015"
             className="border rounded-md border-black p-2 w-[250px]"
-            {...register("confirmPassword")}
+            {...register("admissionYear", { valueAsNumber: true })}
           />
-          {errors.confirmPassword && (
-            <p className="text-red-500">{errors.confirmPassword.message}</p>
-          )}
         </label>
-
         <button
           type="submit"
           disabled={!isValid || loading}

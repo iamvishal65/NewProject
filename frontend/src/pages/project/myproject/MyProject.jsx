@@ -2,23 +2,34 @@ import React from 'react'
 import MyProjectStructure from './MyProjectStructure'
 import ProjectCard from '../projectcard/ProjectCard'
 import axiosInstance from '../../../api/authApi'
+import { useNavigate } from 'react-router-dom'
 
 const MyProject = () => {
-  async function githubAccess(){
-    try {
-      const res = await axiosInstance.get("/api/auth/github/check");
-      // axios response body is in res.data
-      if (!res?.data?.connected) {
-        // redirect user to backend oauth redirect
-        window.location.href = "http://localhost:5000/api/auth/github/redirect";
-      } else {
-        // optional: show a toast / feedback that GitHub already connected
-        console.log("Github already connected");
-      }
-    } catch (error) {
-      console.log("Github access error:", error);
+  const navigate=useNavigate();
+  async function githubAccess() {
+  try {
+    
+    const res = await axiosInstance.get("/api/auth/github/check");
+    if (!res?.data?.connected) {
+      window.location.href =
+        "http://localhost:5000/api/auth/github/redirect";
+    } else {
+      console.log("Github already connected");
     }
+
+  } catch (error) {
+    if (
+      error.status === 403 ||
+      error.response?.data?.requiresStudentRegistration
+    ) {
+      navigate('/studentRegister');
+      return;
+    }
+
+    console.log("Github access error:", error);
   }
+}
+
   
   return (
     <div className="max-w-6xl mx-auto px-4">

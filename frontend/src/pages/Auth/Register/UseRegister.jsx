@@ -17,7 +17,7 @@ export default function useRegister() {
       setLoading(false);
       navigate("/login");
     } catch (error) {
-      console.error("Error:", error.res?.data || error.message);
+      console.error("Error:", error.response?.data || error.message);
     } finally {
       setLoading(false);
     }

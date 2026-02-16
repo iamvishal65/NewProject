@@ -1,9 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const DataProjectStructure = ({onSubmit}) => {
+const DataProjectStructure = ({ onSubmit }) => {
   const { register, handleSubmit } = useForm();
-
   
 
   return (
@@ -61,4 +60,3 @@ const DataProjectStructure = ({onSubmit}) => {
 };
 
 export default DataProjectStructure;
-

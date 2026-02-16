@@ -4,22 +4,20 @@ import axiosInstance from "../../../api/authApi";
 
 const ProjectCard = () => {
   const [loading, setLoading] = useState(true);
-  const [projectData, setProjectData] = useState([]); // <-- correct initial state
-
+  const [projectData, setProjectData] = useState([]);
   useEffect(() => {
-    let mounted = true; // optional safeguard for unmounted component
+    let mounted = true; 
 
     async function projectDetail() {
       try {
         setLoading(true);
         const res = await axiosInstance.get(`/api/project/user/allProject`);
 
-        // axios response body is in res.data
+
         if (res.status !== 200 || !res.data?.projects) {
           throw new Error("Projects have not been fetched");
         }
 
-        // Merge arrays correctly (no nested arrays)
         if (mounted) {
           setProjectData((prev) => [...prev, ...res.data.projects]);
         }
@@ -40,7 +38,6 @@ const ProjectCard = () => {
     try {
       await axiosInstance.delete(`/api/project/user/delete/${projectId}`);
 
-      // remove project from UI
       setProjectData((prev) =>
         prev.filter((project) => project._id !== projectId),
       );

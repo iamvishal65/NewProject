@@ -2,8 +2,9 @@ import { z } from "zod";
 
 export const loginSchema = z
   .object({
-    identifier: z
-      .string(),
+    email: z
+      .string()
+      .email("Please enter a valid email address"),
 
     password: z
       .string()

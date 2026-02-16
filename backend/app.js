@@ -19,6 +19,7 @@ app.use('/api/auth',auth)
 app.use('/api/project',project)
 app.use('/api/auth',github)
 
+
 app.get('/',(_,res)=>{
     res.send("Server is running");
 });

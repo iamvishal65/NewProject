@@ -1,9 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../api/authApi";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const navigate=useNavigate();
+
+
+  async function handleLogout() {
+    try {
+      const res=await axiosInstance.post("/api/auth/user/logout");
+      if(res.status!=200) throw new Error(" error in logout");
+      navigate('/register');
+    } catch (error) {
+      console.error("Error:", error.res?.data || error.message);
+    }
+  }
 
   return (
     <nav
@@ -40,7 +53,7 @@ const Navbar = () => {
             <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-md py-2 text-gray-700 font-medium z-50">
               <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
               <Link to="/settings" className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
-              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={handleLogout}>Logout</button>
             </div>
           )}
         </div>
@@ -90,7 +103,7 @@ const Navbar = () => {
 
             <Link to="/profile" className="mobile-link mt-1">Profile</Link>
             <Link to="/settings" className="mobile-link">Settings</Link>
-            <button className="text-left mobile-link">Logout</button>
+            <button className="text-left mobile-link" onClick={handleLogout}>Logout</button>
           </div>
         </div>
       )}

@@ -8,6 +8,7 @@ import Home from "../pages/Home/Home";
 import MyProject from "../pages/project/myproject/MyProject";
 import Repos from "../pages/Repos/Repos";
 import DataProject from "../pages/project/data/DatagProject";
+import StudentRegister from "../pages/role/student/StudentRegister";
 
 const LinkRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const LinkRoutes = () => {
             <Route path="/myProject" element={<MyProject />} />
             <Route path="/repos" element={<Repos/>} />
             <Route path="/dataProject" element={<DataProject/>} />
+             <Route path="/studentRegister" element={<StudentRegister/>} />
           </Route>
         </Route>
         <Route path="/register" element={<Register/>} />

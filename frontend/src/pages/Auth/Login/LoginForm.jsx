@@ -5,8 +5,12 @@ import { useForm } from "react-hook-form";
 
 export default function LoginForm({ onSubmit, loading }) {
   const [showPassword, setShowPassword] = useState(false);
-
-  const {register,handleSubmit,formState: { errors, isValid },} = useForm({resolver: zodResolver(loginSchema),mode: "onChange", });
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({ resolver: zodResolver(loginSchema), mode: "onChange" });
 
   return (
     <form
@@ -20,15 +24,15 @@ export default function LoginForm({ onSubmit, loading }) {
         <label className="flex flex-col w-full">
           <span className="mb-1 text-gray-700">Email:</span>
           <input
-            type="text"
+            type="email"
             placeholder="Enter your email or enrollment no."
             className="border rounded-md border-gray-400 p-2 w-full focus:border-blue-500 focus:outline-none"
-            {...register("identifier", {
-              required: "Email or Enrollment no. is required",
+            {...register("email", {
+              required: "Email  is required",
             })}
           />
-          {errors.identifier && (
-            <p className="text-red-500 text-sm">{errors.identifier.message}</p>
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
           )}
         </label>
 

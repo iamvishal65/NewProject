@@ -2,18 +2,6 @@ import { z } from "zod";
 
 export const registerSchema = z
   .object({
-    firstName: z
-      .string()
-      .min(1, "First name is required")
-      .max(50, "First name too long")
-      .regex(/^[a-zA-Z]+$/, "First name must contain only letters"),
-
-    lastName: z
-      .string()
-      .min(1, "Last name is required")
-      .max(50, "Last name too long")
-      .regex(/^[a-zA-Z]+$/, "Last name must contain only letters"),
-
     email: z
       .string()
       .min(1, "Email is required")
@@ -29,19 +17,6 @@ export const registerSchema = z
       .regex(/[0-9]/, "Must contain at least one number")
       .regex(/[@$!%*?&]/, "Must contain at least one special character"),
     confirmPassword: z.string().min(1, "Please confirm your password"),
-    enrollment_number: z
-      .string()
-      .min(1, "Enrollment number is required")
-      .regex(
-        /^[A-Z]{3}[0-9]{8}$/,
-        "Invalid enrollment number format (e.g., ABC12345678)"
-      )
-      .transform((val) => val.toUpperCase()),
-
-    admissionYear: z
-      .number()
-      .min(2015, "Admission year must be after 2015")
-      .max(new Date().getFullYear(), "Admission year cannot be in the future"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",

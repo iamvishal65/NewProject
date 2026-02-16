@@ -12,7 +12,11 @@ async function exchangeToken(req, res) {
     if (!code) {
       return res.status(400).json({ message: "Authorization code missing" });
     }
-
+    if (!req.token || !req.token.id) {
+      return res.status(401).json({
+        message: "User not authenticated",
+      });
+    }
     const response = await fetch(
       "https://github.com/login/oauth/access_token",
       {
@@ -39,7 +43,8 @@ async function exchangeToken(req, res) {
     }
     const encryptedToken = encryptToken(accessToken);
 
-    await saveAccessToken(req.token.id, encryptedToken);
+    saveAccessToken(req.token.id, encryptedToken);
+
     res.redirect("http://localhost:5173/repos");
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -66,11 +71,15 @@ async function checkConnection(req, res) {
   try {
     const userId = req.token.id;
     if (!userId) return res.status(401).json({ message: "invalid token" });
+
     const check = await userAllowed(userId);
+    console.log("hi");
+
     if (!check) return res.json({ connected: false });
     else return res.json({ connected: true });
   } catch (err) {
-    res.status(500).json({ message: err });
+    if(err.status==403)res.status(403).json({ message: err });
+    else res.status(500).json({ message: err });
   }
 }
 
@@ -117,13 +126,11 @@ async function getGithubRepos(req, res) {
       fullName: repo.full_name,
       private: repo.private,
     }));
-
+    
     res.json(repoNames);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
-
-
 
 export { checkConnection, redirect, exchangeToken, getGithubRepos };
