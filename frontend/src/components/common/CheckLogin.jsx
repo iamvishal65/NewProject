@@ -12,8 +12,6 @@ const CheckLogin = () => {
 
   useEffect(() => {
     async function loginCheck() {
-      console.log("avinash");
-      
       try {
         const res = await axiosInstance.get("/api/auth/logincheck");
 
