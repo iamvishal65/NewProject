@@ -3,18 +3,20 @@ const {
   allProject,
   projectAccessById,
   deleteProjectById,
+  everyProject,
 } = require("../services/projectServices");
 const mongoose = require("mongoose");
 async function createProject(req, res) {
   try {
-    const { projectName, description, repoLink, imageLink, deployLink} = req.body;
+    const { projectName, description, repoLink, imageLink, deployLink } =
+      req.body;
     const newProject = await createNewProject(
       projectName,
       description,
       repoLink,
       imageLink,
       deployLink,
-      req.token.id
+      req.token.id,
     );
     return res.status(201).json({
       message: "Project created successfully",
@@ -73,11 +75,30 @@ async function deleteProject(req, res) {
     return res.status(500).json({ message: error.message });
   }
 }
+async function everyoneProject(req, res) {
+  try {
+    const projects = await everyProject();
+    if (projects.length === 0) {
+      return res.status(404).json({
+        message: "no project found",
+      });
+    }
+    
+
+    return res.status(200).json({
+      message: "All projects fetched successfully",
+      projects: projects || [],
+    });
+  } catch (error) {
+    console.error("error is:" + error);
+    return res.status(500).json({ message: error.message });
+  }
+}
 
 module.exports = {
   deleteProject,
   singleProject,
   accessAllProject,
   createProject,
+  everyoneProject,
 };
- 

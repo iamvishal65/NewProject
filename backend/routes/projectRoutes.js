@@ -7,5 +7,5 @@ router.post('/user/create',tokenVerification,projectRoute.createProject)
 router.get('/user/projectById',tokenVerification,projectRoute.singleProject)
 router.get('/user/allProject',tokenVerification,projectRoute.accessAllProject)
 router.delete('/user/delete/:id',tokenVerification,projectRoute.deleteProject)
-
+router.get('/user/everyProject',projectRoute.everyoneProject);
 module.exports=router;

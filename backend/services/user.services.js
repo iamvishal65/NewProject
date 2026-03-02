@@ -33,7 +33,8 @@ async function checkUser({ email, password }) {
 }
 
 async function checkLoggedIn(userId) {
-  return  userModel.findById(userId);
+  const user=userModel.findById(userId);
+  return  user;
 }
 
 async function roleAddition(userId,role){

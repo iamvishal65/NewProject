@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProjectCardStructure = ({ project = [], loading, onDelete }) => {
+const ProjectCardStructure = ({ project = [], loading, onDelete ,allowDelete}) => {
   if (loading) {
     return (
       <div className="flex justify-center py-10 text-gray-500">
@@ -73,12 +73,15 @@ const ProjectCardStructure = ({ project = [], loading, onDelete }) => {
               </div>
 
               {/* 🔴 DELETE BUTTON */}
-              <button
-                onClick={() => onDelete(item._id)}
-                className="text-sm bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition"
-              >
-                Delete
-              </button>
+              {allowDelete && (
+                <button
+                  onClick={() => onDelete(item._id)}
+                  className="text-sm bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition"
+                >
+                  Delete
+                </button>
+              )}
+              
             </div>
           </div>
         </div>
@@ -88,4 +91,3 @@ const ProjectCardStructure = ({ project = [], loading, onDelete }) => {
 };
 
 export default ProjectCardStructure;
-

@@ -8,7 +8,7 @@ const CheckLogin = () => {
   const [checking, setChecking] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [data, setData] = useRecoilState(userData);
-  const location = useLocation(); // 🔹 get current URL
+  const location = useLocation(); 
 
   useEffect(() => {
     async function loginCheck() {
@@ -18,6 +18,8 @@ const CheckLogin = () => {
         if (res.data.loggedIn) {
           setLoggedIn(true);
           setData(res.data.user);
+          const user=res.data.roles;
+          const role=user[0];
         } else {
           setLoggedIn(false);
         }

@@ -79,8 +79,8 @@ async function saveAccessToken(userId, encrypted) {
 
 async function getAccessTokenByUserId(userId) {
   
-  const student = await studentModel.findOne({userId:userId}).select(github);
-console.log("hey"+studnet);
+  const student = await studentModel.findOne({userId:userId}).select("github");
+console.log("hey"+student);
 
   if (!student || student.github.connected==false) {
     throw new Error("can't find student");

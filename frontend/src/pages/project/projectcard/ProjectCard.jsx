@@ -2,24 +2,22 @@ import React, { useEffect, useState } from "react";
 import ProjectCardStructure from "./ProjectCardStructure";
 import axiosInstance from "../../../api/authApi";
 
-const ProjectCard = () => {
+const ProjectCard = ({ path, allowDelete = false }) => {
   const [loading, setLoading] = useState(true);
   const [projectData, setProjectData] = useState([]);
   useEffect(() => {
-    let mounted = true; 
+    let mounted = true;
 
     async function projectDetail() {
       try {
         setLoading(true);
-        const res = await axiosInstance.get(`/api/project/user/allProject`);
-
-
+        const res = await axiosInstance.get(path);
         if (res.status !== 200 || !res.data?.projects) {
           throw new Error("Projects have not been fetched");
         }
 
         if (mounted) {
-          setProjectData((prev) => [...prev, ...res.data.projects]);
+          setProjectData(res.data.projects);
         }
       } catch (error) {
         console.log("Error fetching projects:", error);
@@ -33,7 +31,7 @@ const ProjectCard = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [path]);
   const deleteProject = async (projectId) => {
     try {
       await axiosInstance.delete(`/api/project/user/delete/${projectId}`);
@@ -51,7 +49,8 @@ const ProjectCard = () => {
       <ProjectCardStructure
         project={projectData}
         loading={loading}
-        onDelete={deleteProject}
+        onDelete={allowDelete ? deleteProject : null}
+        allowDelete={allowDelete}
       />
     </div>
   );

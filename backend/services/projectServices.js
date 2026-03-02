@@ -45,10 +45,15 @@ const project = await projectCard.findOneAndDelete({
   if (!project) throw new Error("project not existed in db");
   return project;
 }
+async function everyProject() {
+  const data=await projectCard.find({});
+  return data;
+}
 
 module.exports = {
   createNewProject,
   projectAccessById,
   allProject,
   deleteProjectById,
+  everyProject
 };

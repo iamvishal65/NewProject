@@ -34,7 +34,7 @@ const MyProject = () => {
   return (
     <div className="max-w-6xl mx-auto px-4">
       <MyProjectStructure handleClick={githubAccess}/>
-      <ProjectCard/>
+      <ProjectCard path={`/api/project/user/allProject`} allowDelete={true} />
     </div>
   )
 }

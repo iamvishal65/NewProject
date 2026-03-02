@@ -2,22 +2,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/authApi";
 
-const Navbar = () => {
+const UserNavbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const navigate=useNavigate();
 
-  const navLinks = {
-  STUDENT: [
-    { label: "My Projects", path: "/myProject" },
-    { label: "All Projects", path: "/allProject" },
-  ],
-  MENTOR: [
 
-    { label: "All Projects", path: "/allProject" },
-    { label: "Messages", path: "/messages" },
-  ],
-};
   async function handleLogout() {
     try {
       const res=await axiosInstance.post("/api/auth/user/logout");
@@ -40,13 +30,10 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-8 text-gray-100 font-medium">
-        {navlinks.role.map((item)=>(
-          <div><
-            /div>
-        ))}
-        <Link to="/" className="nav-link">{item.label}</Link>
+        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/allProject" className="nav-link">All Projects</Link>
       </div>
-      
+
       {/* Right side buttons */}
       <div className="flex items-center space-x-4">
         
@@ -95,10 +82,7 @@ const Navbar = () => {
         >
           <div className="flex flex-col space-y-3 px-6 py-4 text-white font-medium">
             <Link to="/" className="mobile-link">Home</Link>
-            <Link to="/myProject" className="mobile-link">My Projects</Link>
-            <Link to="#" className="mobile-link">Group Projects</Link>
             <Link to="/allProject" className="mobile-link">All Projects</Link>
-            <Link to="#" className="mobile-link">Ask Mentor?</Link>
 
             {/* Profile section for mobile */}
             <hr className="border-gray-500" />
@@ -123,5 +107,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
-
+export default UserNavbar;
