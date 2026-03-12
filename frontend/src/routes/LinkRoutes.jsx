@@ -3,13 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "../pages/Auth/Register/Register";
 import Login from "../pages/Auth/Login/Login";
 import CheckLogin from "../components/common/CheckLogin";
-import AppLayout from "../pages/project/AppLayout/AppLayout";
+import AppLayout from "../components/AppLayout/AppLayout";
 import Home from "../pages/Home/Home";
 import MyProject from "../pages/project/myproject/MyProject";
 import Repos from "../pages/Repos/Repos";
 import DataProject from "../pages/project/data/DatagProject";
 import StudentRegister from "../pages/role/student/StudentRegister";
-import AllProject from "../components/allProject/AllProject";
+import AllProject from "../pages/project/allProject/AllProject";
+import Setting from "../pages/userMenu/setting/Setting";
+import UserData from "../pages/userMenu/profile/UserData";
 
 const LinkRoutes = () => {
   return (
@@ -22,7 +24,9 @@ const LinkRoutes = () => {
             <Route path="/repos" element={<Repos/>} />
             <Route path="/dataProject" element={<DataProject/>} />
             <Route path="/allProject" element={<AllProject />} />
-             <Route path="/studentRegister" element={<StudentRegister/>} />
+            <Route path="/studentRegister" element={<StudentRegister/>} />
+            <Route path="/settings" element={<Setting/>} />
+            <Route path="/profile" element={<UserData/>} />
           </Route>
         </Route>
         <Route path="/register" element={<Register/>} />

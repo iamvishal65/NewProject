@@ -1,28 +1,34 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/authApi";
+import { userData } from "../../recoil/UserData";
+import { useRecoilState } from "recoil";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const navigate=useNavigate();
+  const [data,setData]=useRecoilState(userData);
+  const navigate = useNavigate();
 
   const navLinks = {
-  STUDENT: [
-    { label: "My Projects", path: "/myProject" },
-    { label: "All Projects", path: "/allProject" },
-  ],
-  MENTOR: [
-
-    { label: "All Projects", path: "/allProject" },
-    { label: "Messages", path: "/messages" },
-  ],
-};
+    STUDENT: [
+      { label: "My Projects", path: "/myProject" },
+      { label: "All Projects", path: "/allProject" },
+    ],
+    MENTOR: [
+      { label: "All Projects", path: "/allProject" },
+      { label: "Messages", path: "/messages" },
+    ],
+  };
+ 
+  const role=data.roles;
+  const t=navLinks[role];
+   console.log(t); 
   async function handleLogout() {
     try {
-      const res=await axiosInstance.post("/api/auth/user/logout");
-      if(res.status!=200) throw new Error(" error in logout");
-      navigate('/register');
+      const res = await axiosInstance.post("/api/auth/user/logout");
+      if (res.status != 200) throw new Error(" error in logout");
+      navigate("/register");
     } catch (error) {
       console.error("Error:", error.res?.data || error.message);
     }
@@ -40,16 +46,20 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-8 text-gray-100 font-medium">
-        {navlinks.role.map((item)=>(
-          <div><
-            /div>
-        ))}
-        <Link to="/" className="nav-link">{item.label}</Link>
+        <ul className="flex space-x-8">
+          {t.map((item,index) => {
+         return(<li key={index} className="cursor-pointer hover:text-blue-400">
+          <Link to={item.path} className="nav-link">
+          {item.label}
+        </Link>
+        </li>)
+        })}
+        
+        </ul>
       </div>
-      
+
       {/* Right side buttons */}
       <div className="flex items-center space-x-4">
-        
         {/* Profile Pic (Desktop) */}
         <div className="relative hidden md:block">
           <img
@@ -61,10 +71,24 @@ const Navbar = () => {
 
           {profileOpen && (
             <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-md py-2 text-gray-700 font-medium z-50">
-              <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
-              <Link to="/settings" className="block px-4 py-2 hover:bg-gray-100">Settings</Link>
-              <Link to="/applyForMentor" className="mobile-link">Apply for Mentor</Link>
-              <button className="block w-full text-left px-4 py-2 hover:bg-gray-100" onClick={handleLogout}>Logout</button>
+              <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">
+                Profile
+              </Link>
+              <Link
+                to="/settings"
+                className="block px-4 py-2 hover:bg-gray-100"
+              >
+                Settings
+              </Link>
+              <Link to="/applyForMentor" className="mobile-link">
+                Apply for Mentor
+              </Link>
+              <button
+                className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
             </div>
           )}
         </div>
@@ -75,12 +99,34 @@ const Navbar = () => {
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-7 w-7"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-7 w-7"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           )}
         </button>
@@ -94,11 +140,21 @@ const Navbar = () => {
                      shadow-md md:hidden z-20"
         >
           <div className="flex flex-col space-y-3 px-6 py-4 text-white font-medium">
-            <Link to="/" className="mobile-link">Home</Link>
-            <Link to="/myProject" className="mobile-link">My Projects</Link>
-            <Link to="#" className="mobile-link">Group Projects</Link>
-            <Link to="/allProject" className="mobile-link">All Projects</Link>
-            <Link to="#" className="mobile-link">Ask Mentor?</Link>
+            <Link to="/" className="mobile-link">
+              Home
+            </Link>
+            <Link to="/myProject" className="mobile-link">
+              My Projects
+            </Link>
+            <Link to="#" className="mobile-link">
+              Group Projects
+            </Link>
+            <Link to="/allProject" className="mobile-link">
+              All Projects
+            </Link>
+            <Link to="#" className="mobile-link">
+              Ask Mentor?
+            </Link>
 
             {/* Profile section for mobile */}
             <hr className="border-gray-500" />
@@ -112,10 +168,18 @@ const Navbar = () => {
               <span className="text-white font-semibold">Your Name</span>
             </div>
 
-            <Link to="/profile" className="mobile-link mt-1">Profile</Link>
-            <Link to="/settings" className="mobile-link">Settings</Link>
-            <Link to="/applyForMentor" className="mobile-link">Apply for Mentor</Link>
-            <button className="text-left mobile-link" onClick={handleLogout}>Logout</button>
+            <Link to="/profile" className="mobile-link mt-1">
+              Profile
+            </Link>
+            <Link to="/settings" className="mobile-link">
+              Settings
+            </Link>
+            <Link to="/applyForMentor" className="mobile-link">
+              Apply for Mentor
+            </Link>
+            <button className="text-left mobile-link" onClick={handleLogout}>
+              Logout
+            </button>
           </div>
         </div>
       )}
@@ -124,4 +188,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

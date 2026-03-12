@@ -14,12 +14,11 @@ const CheckLogin = () => {
     async function loginCheck() {
       try {
         const res = await axiosInstance.get("/api/auth/logincheck");
-
         if (res.data.loggedIn) {
           setLoggedIn(true);
           setData(res.data.user);
-          const user=res.data.roles;
-          const role=user[0];
+          const user=res.data.user.roles;
+          const role=user;
         } else {
           setLoggedIn(false);
         }
